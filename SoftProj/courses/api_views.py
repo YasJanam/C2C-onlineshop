@@ -2,10 +2,11 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Course , CourseSchedule
-from .serializers import CourseSerializer , CourseScheduleSerializer
+from .serializers import *
 from django.db.models import Q
 from rest_framework import status
 
+# --------- course CRUD -----------
 
 # GET all courses
 @api_view(['GET'])
@@ -50,16 +51,57 @@ def update_course(request, id):
         return Response({"error": "Course not found"}, status=404)
 
 
-# DELETE course
+# DELETE course 
 @api_view(['DELETE'])
-def delete_course(request, id):
+def delete_course(request):
     try:
-        course = Course.objects.get(id=id)
+        course = Course.objects.get(code=request.data["course-code"])
         course.delete()
         return Response(status=204)
     except Course.DoesNotExist:
         return Response({"error": "Course not found"}, status=404)
     
+
+# ------------- course-schedule CRUD ------------------
+
+# CREATE new course
+@api_view(['POST'])
+def create_course_offering(request):
+    serializer = CreateCourseOfferingSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=201)
+    return Response(serializer.errors, status=400)
+
+
+@api_view(['DELETE'])
+def delete_course_offering(request):
+    try:
+        course = CourseOffering.objects.get(offering_code=request.data["offering-code"])
+        course.delete()
+        return Response(status=204)
+    except Course.DoesNotExist:
+        return Response({"error": "Course not found"}, status=404)
+    
+# GET all courses
+@api_view(['GET'])
+def get_courses_offering(request):
+    courses = CourseOffering.objects.all()
+    serializer = CourseSerializer(courses, many=True)
+    return Response(serializer.data)
+
+
+# GET single course
+@api_view(['GET'])
+def get_course_offering(request, id):
+    try:
+        course = CourseOffering.objects.get(id=id)
+        serializer = CourseOfferingSerializer(course)
+        return Response(serializer.data)
+    except Course.DoesNotExist:
+        return Response({"error": "Course not found"}, status=404)
+
+# ------------- search & filter --------------
 
 # Search course by name or prof
 @api_view(['GET'])
@@ -67,7 +109,7 @@ def search_courses(request):
     course_name = request.GET.get('course_name', '')
     professor_name = request.GET.get('professor_name', '')
 
-    queryset = Course.objects.all()
+    queryset = CourseOffering.objects.all()
 
     if course_name:
         queryset = queryset.filter(name__icontains=course_name)
@@ -78,7 +120,7 @@ def search_courses(request):
             Q(professor__user__last_name__icontains=professor_name)
         )
 
-    serializer = CourseSerializer(queryset, many=True)
+    serializer = CourseOfferingSerializer(queryset, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 """
@@ -108,9 +150,8 @@ def search_courses_by_semester(request):
 
     serializer = CourseScheduleSerializer(queryset, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
-"""
 
-# search courses by semester
+
 @api_view(['GET'])
 def list_courses_by_semester(request, semester):
     queryset = CourseSchedule.objects.filter(semester=semester)
@@ -122,6 +163,22 @@ def list_courses_by_semester(request, semester):
         )
 
     serializer = CourseScheduleSerializer(queryset, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+"""
+
+# search courses by semester
+@api_view(['GET'])
+def offered_courses_by_semester(request):
+    queryset = CourseOffering.objects.filter(semester=request.data["semester"])
+    
+    if not queryset.exists():
+        return Response(
+            {"error": f"No courses found for semester {request.data["semester"]}"},
+            status=status.HTTP_404_NOT_FOUND
+        )
+
+    serializer = CourseOfferingSerializer(queryset, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
