@@ -1,7 +1,6 @@
 from rest_framework import serializers
-from Student.models import StudentSemester
 
-
+"""
 class StudentSemesterUnitsSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentSemester
@@ -27,3 +26,4 @@ class StudentSemesterSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Invalid term")
         return value
 
+"""

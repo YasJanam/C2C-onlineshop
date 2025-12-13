@@ -1,5 +1,4 @@
 from django.db import models
-from Student.models import Student
 
 
 class Semester(models.Model):
@@ -30,7 +29,7 @@ class Semester(models.Model):
         return str(self.code)
 
 
-
+"""
 class StudentSemester(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
@@ -51,3 +50,4 @@ class StudentSemester(models.Model):
 
     def __str__(self):
         return f"{self.student} - {self.semester}"
+"""

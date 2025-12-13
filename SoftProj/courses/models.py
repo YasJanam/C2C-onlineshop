@@ -69,44 +69,6 @@ class CourseOffering(models.Model):
                                   verbose_name="professor")
     unit = models.PositiveIntegerField(verbose_name="unit",blank=True,null=True)
 
-    """
-    class DayOfWeek(models.TextChoices):
-        SATURDAY = 'Saturday', 'Saturday'
-        SUNDAY = 'Sunday', 'Sunday'
-        MONDAY = 'Monday', 'Monday'
-        TUESDAY = 'Tuesday', 'Tuesday'
-        WEDNESDAY = 'Wednesday', 'Wednesday'
-
-    day_of_week1 = models.CharField(
-        max_length=10,
-        choices=DayOfWeek.choices,
-        verbose_name="day of week",
-        blank= True,
-        null=True,
-    )
-
-    day_of_week2 = models.CharField(
-        max_length=10,
-        choices=DayOfWeek.choices,
-        verbose_name="day of week",
-        blank= True,
-        null=True,
-    )
-
-    class TimeSlot(models.TextChoices):
-        SLOT_8_10 = '8-10', '8:00 - 10:00'
-        SLOT_10_12 = '10-12', '10:00 - 12:00'
-        SLOT_14_16 = '14-16', '14:00 - 16:00'
-        SLOT_16_18 = '16-18', '16:00 - 18:00'
-
-    time_slot = models.CharField(
-        max_length=10,
-        choices=TimeSlot.choices,
-        verbose_name="time slot"
-    )
-
-    location = models.CharField(max_length=50, verbose_name="location")
-    """
     sessions = models.ManyToManyField(Session, related_name="course_schedules")
 
     semester = models.CharField(max_length=10, verbose_name="semester") 

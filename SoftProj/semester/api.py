@@ -1,12 +1,12 @@
 from rest_framework.decorators import api_view , permission_classes
 from rest_framework.response import Response
-from .models import StudentSemester
+from .models import *
 from rest_framework import status
-from .serializers import  StudentSemesterUnitsSerializer
+from .serializers import  *
 from rest_framework.permissions import IsAuthenticated,IsAdminUser
 
 
-
+"""
 @api_view(['PATCH'])
 #@permission_classes([IsAdminUser])
 def student_semester_maxmin_units(request):
@@ -42,3 +42,4 @@ def student_semester_maxmin_units(request):
         return Response(serializer.data)
 
     return Response(serializer.errors, status=400)
+"""

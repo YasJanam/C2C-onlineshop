@@ -1,7 +1,7 @@
 # courses/api_views.py
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Course , CourseSchedule
+from .models import Course , CourseOffering
 from .serializers import *
 from django.db.models import Q
 from rest_framework import status

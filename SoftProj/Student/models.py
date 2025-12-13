@@ -1,7 +1,7 @@
 from django.db import models
 from accounts.models import User
 from courses.models import CourseOffering
-from semester.models import StudentSemester
+from semester.models import Semester
 
 class Student(models.Model):
     
@@ -26,6 +26,32 @@ class Student(models.Model):
         verbose_name = "student"
         verbose_name_plural = "students"
 
+
+
+class StudentSemester(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
+
+    total_units = models.PositiveSmallIntegerField(default=0,blank=True,null=True)
+    status = models.CharField(
+        choices=[('normal','Normal'), ('probation','Probation')],
+        default='normal',
+        blank=True,
+        null=True,
+    )
+
+    min_units = models.PositiveSmallIntegerField(default=12,blank=True,null=True)
+    max_units = models.PositiveSmallIntegerField(default=24,blank=True,null=True)
+
+    class Meta:
+        unique_together = ('student', 'semester')
+
+    def __str__(self):
+        return f"{self.student} - {self.semester}"
+    
+
+
+
 class StudentCourse(models.Model):
     student_semester = models.ForeignKey(StudentSemester, on_delete=models.CASCADE)
     course_offering = models.ForeignKey(CourseOffering, on_delete=models.CASCADE)
@@ -40,3 +66,6 @@ class StudentCourse(models.Model):
         ],
         default='enrolled'
     )
+
+
+
