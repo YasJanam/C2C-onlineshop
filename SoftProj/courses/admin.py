@@ -1,17 +1,17 @@
 from django.contrib import admin
-from .models import Course, CourseSchedule
+from .models import Course, CourseOffering
 
 
 class CourseScheduleInline(admin.TabularInline):
-    model = CourseSchedule
+    model = CourseOffering
     extra = 1
     fields = ['day_of_week', 'time_slot', 'location']
 
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ['name', 'code', 'capacity', 'professor', 'get_schedules_display']
-    list_filter = ['professor']
+    list_display = ['name', 'code', 'get_schedules_display']
+    #list_filter = ['professor']
     search_fields = ['name', 'code']
     inlines = [CourseScheduleInline]
 
@@ -22,5 +22,5 @@ class CourseAdmin(admin.ModelAdmin):
     get_schedules_display.short_description = 'Schedules'
 
     fieldsets = (
-        ('Course info', {'fields': ('name', 'code', 'capacity', 'professor')}),
+        ('Course info', {'fields': ('name', 'code')}),
     )

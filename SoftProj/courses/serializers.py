@@ -148,8 +148,6 @@ class CreateCourseOfferingSerializer(serializers.ModelSerializer):
 
 
 
-    
-
 class SessionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Session
