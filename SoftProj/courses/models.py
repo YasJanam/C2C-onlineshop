@@ -5,7 +5,7 @@ from Professor.models import Professor
 class Course(models.Model):
     name = models.CharField(max_length=100, verbose_name="course name")
     code = models.CharField(max_length=20, unique=True, verbose_name="course code")
-   
+    unit = models.PositiveIntegerField(verbose_name="unit",blank=True,null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -67,7 +67,6 @@ class CourseOffering(models.Model):
     offering_code = models.CharField(max_length=20, unique=True, verbose_name="offering code")
     professor = models.ForeignKey('Professor.Professor', on_delete=models.CASCADE, related_name='courses',
                                   verbose_name="professor")
-    unit = models.PositiveIntegerField(verbose_name="unit",blank=True,null=True)
 
     sessions = models.ManyToManyField(Session, related_name="course_schedules")
 

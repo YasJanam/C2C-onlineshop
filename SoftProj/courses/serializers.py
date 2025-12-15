@@ -10,8 +10,6 @@ class CourseSerializer(serializers.ModelSerializer):
         model = Course
         fields = ['name', 'code']
 
-    #def get_professor_name(self, obj):
-    #    return str(obj.professor)
     
     def validate_code(self, value):
         # create
@@ -19,6 +17,12 @@ class CourseSerializer(serializers.ModelSerializer):
             if Course.objects.filter(code=value).exists():
                 raise serializers.ValidationError("Course code already exists.")
         # update ?
+        return value
+    
+    def validate_unit(self,value):
+        allowed = [1, 2, 3]
+        if value not in allowed:
+            raise serializers.ValidationError("Units must be 1, 2, or 3.")
         return value
     
 
@@ -49,7 +53,7 @@ class CourseOfferingSerializer(serializers.ModelSerializer):
 
     def validate_semester(self, value):
         
-        pattern = r'^\d{4}-[1-3]$'  # YYYY-N : semester form
+        pattern = r'^\d{4}[1-3]$'  # YYYY-N : semester form
 
         if not re.match(pattern, value):
             raise serializers.ValidationError("Semester must be in format YYYY-N, e.g., 1403-1")
@@ -75,7 +79,7 @@ class CreateCourseOfferingSerializer(serializers.ModelSerializer):
         ]
 
     def validate_semester(self, value):        
-        pattern = r'^\d{4}-[1-3]$'  # YYYY-N : semester form
+        pattern = r'^\d{4}[1-3]$'  # YYYY-N : semester form
         if not re.match(pattern, value):
             raise serializers.ValidationError("Semester must be in format YYYY-N, e.g., 1403-1")
         return value
@@ -88,11 +92,6 @@ class CreateCourseOfferingSerializer(serializers.ModelSerializer):
         if not Course.objects.filter(course_code=value).exists():
             raise serializers.ValidationError({"course-code": "Course with this code not found."})
         
-    def validate_unit(self,value):
-        allowed = [1, 2, 3]
-        if value not in allowed:
-            raise serializers.ValidationError("Units must be 1, 2, or 3.")
-        return value
     
     def validate(self, attrs):
         unit = attrs.get("couunitrse")
