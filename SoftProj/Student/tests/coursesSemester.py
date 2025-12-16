@@ -1,4 +1,3 @@
-"""
 from django.test import TestCase
 from rest_framework.test import APIClient
 from rest_framework import status
@@ -13,7 +12,7 @@ class StudentSemesterCoursesAPITest(TestCase):
     def setUp(self):
         self.client = APIClient()
 
-       # 1. ساخت User
+        # 1. ساخت User برای پروفسور
         user = User.objects.create_user(
             username="prof1",
             password="123456",
@@ -28,34 +27,40 @@ class StudentSemesterCoursesAPITest(TestCase):
             first_name=user.first_name,
             last_name=user.last_name
         )
-        # ساخت درس‌ها
+
+        # 3. ساخت Semester واقعی
+        self.semester = Semester.objects.create(
+            code="20251",
+            year=2025,
+            term=1
+        )
+
+        # 4. ساخت درس‌ها
         self.course1 = Course.objects.create(name="Course 1", code="C001")
         self.course2 = Course.objects.create(name="Course 2", code="C002")
 
-        # ساخت ترم نمونه
-        self.semester = "20251"
-
-        # ساخت CourseOffering
+        # 5. ساخت CourseOffering مرتبط با ترم و پروفسور
         self.offering1 = CourseOffering.objects.create(
             course=self.course1,
             professor=self.professor,
-            semester=self.semester,
+            semester=self.semester.code,  # رشته کد ترم
             group_code="A1",
             capacity=30
         )
         self.offering2 = CourseOffering.objects.create(
             course=self.course2,
             professor=self.professor,
-            semester=self.semester,
+            semester=self.semester.code,
             group_code="B1",
             capacity=30
         )
 
-        self.url = "/api/student-semester/courses-in-semester/"
+        # URL view action
+        self.url = "/student-semester/courses-in-semester/"
 
     def test_get_courses_in_semester_success(self):
         """دریافت موفق دروس ارائه شده در ترم"""
-        response = self.client.get(self.url, {"semester_code": 20251})
+        response = self.client.get(self.url, {"semester_code": self.semester.code})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         # بررسی تعداد دروس برگردانده شده
@@ -63,8 +68,8 @@ class StudentSemesterCoursesAPITest(TestCase):
 
         # بررسی کد دروس
         codes = [c["course_code"] for c in response.data]
-        self.assertIn("MATH101", codes)
-        self.assertIn("PHY101", codes)
+        self.assertIn("C001", codes)
+        self.assertIn("C002", codes)
 
     def test_get_courses_in_semester_missing_code(self):
         """درخواست بدون ارسال کد ترم"""
@@ -74,7 +79,6 @@ class StudentSemesterCoursesAPITest(TestCase):
 
     def test_get_courses_in_semester_not_found(self):
         """درخواست برای ترم موجود نیست"""
-        response = self.client.get(self.url, {"semester_code": 99999})
+        response = self.client.get(self.url, {"semester_code": "99999"})
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertIn("error", response.data)
-"""
