@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
-from Professor.models import Professor
+from django.contrib.auth.models import User
 
 
 class Course(models.Model):
@@ -19,6 +19,7 @@ class Course(models.Model):
         "self",
         symmetrical=False,
         blank=True,
+        null=True,
         related_name="required_for"
     )
 
@@ -62,10 +63,10 @@ class Session(models.Model):
         verbose_name="time slot"
     )
 
-    location = models.CharField(max_length=50, verbose_name="location")
+    location = models.CharField(max_length=50,blank=True,null=True, verbose_name="location")
 
     def __str__(self):
-        return f"{self.day_of_week} ({self.time_slot}) - {self.location}" 
+        return f"{self.day_of_week} ({self.time_slot})" 
     
 
 
@@ -73,14 +74,9 @@ class Session(models.Model):
 class CourseOffering(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='schedules', verbose_name="course")
     capacity = models.PositiveIntegerField(verbose_name="capacity",default=30)
-    #offering_code = models.CharField(max_length=20, unique=True, verbose_name="offering code")
-    professor = models.ForeignKey('Professor.Professor', on_delete=models.CASCADE, related_name='courses',
-                                  verbose_name="professor")
-
-    sessions = models.ManyToManyField(Session, related_name="course_schedules")
-
-    semester = models.CharField(max_length=10, verbose_name="semester") 
-
+    prof_name = models.CharField(max_length=50, verbose_name="prof_name",blank=True,null=True,default="نامشخص")    
+    sessions = models.ManyToManyField(Session,blank=True,null=True, related_name="course_schedules")
+    semester = models.IntegerField(max_length=30,default=20251,blank=True,null=True, verbose_name="semester") 
     group_code = models.CharField(
         max_length=10,
         verbose_name="group code"
@@ -100,8 +96,8 @@ class CourseOffering(models.Model):
         return f"{self.course.code}"
 
     class Meta:
-        verbose_name = "course schedule"
-        verbose_name_plural = "course schedules"
+        verbose_name = "course offering"
+        verbose_name_plural = "course offering"
         #unique_together = ['course']
 
 

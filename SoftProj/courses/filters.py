@@ -8,20 +8,16 @@ class CourseOfferingFilter(filters.FilterSet):
         lookup_expr='exact'
     )
 
-    course_title = filters.CharFilter(
+    course_name = filters.CharFilter(
         field_name='course__name',
         lookup_expr='icontains'
     )
 
-    professor_first_name = filters.CharFilter(
-        field_name='professor__first_name',
+    prof_name = filters.CharFilter(
+        field_name='prof_name',
         lookup_expr='icontains'
     )
 
-    professor_last_name = filters.CharFilter(
-        field_name='professor__last_name',
-        lookup_expr='icontains'
-    )
 
 
     min_capacity = filters.NumberFilter(

@@ -32,10 +32,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'accounts',
     'courses',
-    'Professor',
-    'Student',
-    'Manager',
-    'semester',
+    'students',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -51,7 +48,12 @@ INSTALLED_APPS = [
 
 ]
 
-#AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = 'auth.User'
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGOUT_REDIRECT_URL = 'login'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

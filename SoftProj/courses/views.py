@@ -13,27 +13,24 @@ from .filters import CourseOfferingFilter
 
 
 class CourseOfferingViewSet(ModelViewSet):
-
     queryset = CourseOffering.objects.all().distinct()
-    serializer_class = CourseOfferingSerializer  
     filter_backends = [DjangoFilterBackend]
     filterset_class = CourseOfferingFilter
-
     def get_serializer_class(self):
-        if self.action == 'create':
-            return CreateCourseOfferingSerializer
-        return CourseOfferingSerializer
-
+        if self.action in ['list', 'retrieve']:
+            return CourseOfferingReadSerializer
+        return CourseOfferingWriteSerializer
+    
     #lookup_field = 'code'          
     #lookup_url_kwarg = 'code'
-    #permission_classes = [IsAdminUser]
+
+
 
 class SessionViewSet(ModelViewSet):
     queryset = Session.objects.all()
     serializer_class = SessionSerializer  
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['day_of_week', 'time_slot', 'location']
-    #permission_classes = [IsAdminUser]
 
 
 
@@ -43,11 +40,7 @@ class CourseViewSet(ModelViewSet):
     serializer_class = CourseSerializer
     filter_backends = [DjangoFilterBackend]
 
-    #lookup_field = 'course_code'
-    #lookup_url_kwarg = 'course_code'
-
     filterset_fields = ['code', 'name', 'unit']
-    #permission_classes = [IsAdminUser]
     
     @action(detail=False, methods=["post"], url_path="add-prerequisite")
     def add_prerequisite(self, request):

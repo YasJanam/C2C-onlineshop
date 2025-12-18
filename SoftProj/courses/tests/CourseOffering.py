@@ -1,43 +1,141 @@
+from rest_framework.test import APIClient
 from django.urls import reverse
+from courses.serializers import *
+
 from rest_framework.test import APITestCase
 from rest_framework import status
-from courses.models import Course, CourseOffering, Session
-from Professor.models import Professor
-from accounts.models import User
+from courses.models import (
+    Course,
+    Session,
+    CourseOffering
+)
 
-class CourseOfferingAPITest(APITestCase):
+
+class CourseOfferingAPITestCase(APITestCase):
 
     def setUp(self):
-        # ساخت یوزر و استاد
-        self.user = User.objects.create_user(username="prof1", password="testpass")
-        self.professor = Professor.objects.create(user=self.user, professor_code="P001", first_name="John", last_name="Doe")
-        
-        # ساخت دوره
-        self.course = Course.objects.create(name="Math", code="MATH101", unit=3)
-        
-        # ساخت session
-        self.session1 = Session.objects.create(day_of_week="Saturday", time_slot="8-10", location="Room 101")
-        self.session2 = Session.objects.create(day_of_week="Sunday", time_slot="10-12", location="Room 102")
-        
-        # URL اندپوینت ایجاد course offering
-        self.url = reverse("courseoffering-list")  # اگر از DefaultRouter استفاده می‌کنی
+        # ---------- Course ----------
+        self.course = Course.objects.create(
+            name="Data Structures",
+            code="CS201",
+            unit=3
+        )
+
+        # ---------- Sessions ----------
+        self.session1 = Session.objects.create(
+            day_of_week=Session.DayOfWeek.SATURDAY,
+            time_slot=Session.TimeSlot.SLOT_8_10,
+            location="Class A"
+        )
+        self.session2 = Session.objects.create(
+            day_of_week=Session.DayOfWeek.MONDAY,
+            time_slot=Session.TimeSlot.SLOT_10_12,
+            location="Class B"
+        )
+
+        # ---------- Course Offering ----------
+        self.offering = CourseOffering.objects.create(
+            course=self.course,
+            group_code="01",
+            semester=20251,
+            capacity=30,
+            prof_name="Dr. Test"
+        )
+        self.offering.sessions.set([self.session1])
+
+        self.base_url = "/courseofferings/"
+
+    # ---------- LIST ----------
+
+    def test_list_course_offerings(self):
+        response = self.client.get(self.base_url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+
+    # ---------- RETRIEVE ----------
+
+    def test_retrieve_course_offering(self):
+        response = self.client.get(f"{self.base_url}{self.offering.id}/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.assertEqual(response.data["course_code"], "CS201")
+        self.assertEqual(response.data["course_name"], "Data Structures")
+        self.assertEqual(response.data["course_unit"], 3)
+        self.assertEqual(response.data["capacity"], 30)
+
+    # ---------- CREATE ----------
 
     def test_create_course_offering(self):
-        payload = {
-            "course": self.course.id,
-            "capacity": 30,
-            "professor": self.professor.id,
-            "sessions": [
-                {"day_of_week": "Saturday", "time_slot": "8-10", "location": "Room 101"},
-                {"day_of_week": "Sunday", "time_slot": "10-12", "location": "Room 102"}
-            ],
-            "semester": "1403-1",
-            "group_code": "A1"
+        data = {
+            "course_code": "CS201",
+            "group_code": "02",
+            "semester": 20251,
+            "capacity": 40,
+            "prof_name": "Dr. New",
+            "session_ids": [self.session1.id, self.session2.id]
         }
 
-        response = self.client.post(self.url, payload, format="json")
-        #print(response.data)
+        response = self.client.post(
+            self.base_url,
+            data,
+            format="json"
+        )
+
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(CourseOffering.objects.count(), 1)
-        self.assertEqual(CourseOffering.objects.first().course, self.course)
-        self.assertEqual(CourseOffering.objects.first().sessions.count(), 2)
+        self.assertEqual(CourseOffering.objects.count(), 2)
+
+        offering = CourseOffering.objects.latest("id")
+        self.assertEqual(offering.code, "CS2010220251")
+        self.assertEqual(offering.sessions.count(), 2)
+
+    # ---------- UPDATE (PATCH) ----------
+
+    def test_update_course_offering(self):
+        data = {
+            "capacity": 25,
+            "prof_name": "Dr. Updated"
+        }
+
+        response = self.client.patch(
+            f"{self.base_url}{self.offering.id}/",
+            data,
+            format="json"
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.offering.refresh_from_db()
+        self.assertEqual(self.offering.capacity, 25)
+        self.assertEqual(self.offering.prof_name, "Dr. Updated")
+
+    # ---------- UPDATE SESSIONS ----------
+
+    def test_update_course_offering_sessions(self):
+        data = {
+            "session_ids": [self.session2.id]
+        }
+
+        response = self.client.patch(
+            f"{self.base_url}{self.offering.id}/",
+            data,
+            format="json"
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.offering.refresh_from_db()
+        self.assertEqual(self.offering.sessions.count(), 1)
+        self.assertEqual(
+            self.offering.sessions.first().id,
+            self.session2.id
+        )
+
+    # ---------- DELETE ----------
+
+    def test_delete_course_offering(self):
+        response = self.client.delete(
+            f"{self.base_url}{self.offering.id}/"
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(CourseOffering.objects.count(), 0)

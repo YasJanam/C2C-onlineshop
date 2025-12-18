@@ -1,8 +1,10 @@
 # courses/tests/test_prerequisites.py
-from rest_framework.test import APITestCase
 from rest_framework import status
 from django.urls import reverse
 from courses.models import Course
+from django.test import TestCase
+from rest_framework.test import APITestCase, APIClient
+
 
 class PrerequisiteAPITest(APITestCase):
 
@@ -45,10 +47,6 @@ class PrerequisiteAPITest(APITestCase):
         self.assertNotIn(self.course2, self.course1.prerequisites.all())
 
 
-from django.test import TestCase
-from rest_framework.test import APIClient
-from rest_framework import status
-from courses.models import Course
 # برای اندپوینت دستی
 class CoursePrerequisiteAPITest2(TestCase):
     def setUp(self):
@@ -58,14 +56,12 @@ class CoursePrerequisiteAPITest2(TestCase):
         self.course1 = Course.objects.create(name="Course 1", code="C001")
         self.course2 = Course.objects.create(name="Course 2", code="C002")
 
-        # URL های add/remove مطابق viewset
+     
         self.add_url = "/courses/add-prerequisite/"
         self.remove_url = "/courses/remove-prerequisite/"
 
     def test_add_and_remove_prerequisite(self):
-        """افزودن و سپس حذف یک پیش‌نیاز موفق"""
 
-        # --- افزودن پیش‌نیاز ---
         add_data = {
             "coursecode": self.course1.code,
             "prereqcode": self.course2.code
@@ -93,3 +89,51 @@ class CoursePrerequisiteAPITest2(TestCase):
         self.course1.refresh_from_db()
         self.assertFalse(self.course1.prerequisites.filter(id=self.course2.id).exists())
 
+# برای اندپوینت دستی
+class CoursePrerequisiteAPITestCase(APITestCase):
+
+    def setUp(self):
+        # ایجاد چند Course
+        self.course1 = Course.objects.create(code="CS101", name="Intro to CS", unit=3)
+        self.course2 = Course.objects.create(code="CS102", name="Data Structures", unit=3)
+        self.course3 = Course.objects.create(code="CS103", name="Algorithms", unit=3)
+
+        self.client = APIClient()
+        self.base_url = reverse("course-list")  
+
+    # ---------- TEST ADD PREREQUISITE ----------
+
+    def test_add_prerequisite(self):
+        url = f"{self.base_url}add-prerequisite/"
+        data = {
+            "coursecode": self.course3.code,  
+            "prereqcode": self.course2.code
+        }
+
+        response = self.client.post(url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIn("Prerequisite added", response.data["message"])
+
+        # بررسی اینکه prereq اضافه شده
+        self.course3.refresh_from_db()
+        self.assertIn(self.course2, self.course3.prerequisites.all())
+
+    # ---------- TEST REMOVE PREREQUISITE ----------
+
+    def test_remove_prerequisite(self):
+        # ابتدا اضافه می‌کنیم تا بعد حذف شود
+        self.course3.prerequisites.add(self.course2)
+
+        url = f"{self.base_url}remove-prerequisite/"
+        data = {
+            "coursecode": self.course3.code,
+            "prereqcode": self.course2.code
+        }
+
+        response = self.client.post(url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIn("Prerequisite removed", response.data["message"])
+
+        # بررسی اینکه prereq حذف شده
+        self.course3.refresh_from_db()
+        self.assertNotIn(self.course2, self.course3.prerequisites.all())
