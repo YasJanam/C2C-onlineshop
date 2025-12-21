@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>ادمین پنل</title>
+  <link rel="stylesheet" href="./style/adminpanel_courses.css">
+</head>
+<body>
+
+<div class="sidebar">
+  <h2>ادمین پنل</h2>
+
+  <!-- مدیریت دروس -->
+  <div class="menu-item" data-target="courseMenu">
+    مدیریت دروس
+  </div>
+  <div class="submenu" id="courseMenu">
+    <div class="submenu-item" onclick="renderCourseList()">لیست دروس</div>
+    <div class="submenu-item" onclick="renderAddCourse()">افزودن درس</div>
+    <div class="submenu-item" onclick="renderUpdateCourse()">آپدیت درس</div>
+    <div class="submenu-item" onclick="renderDeleteCourse()">حذف درس</div>
+  </div>
+
+  <!-- مدیریت پیشنیاز -->
+  <div class="menu-item" data-target="prereqMenu">
+    مدیریت پیشنیاز
+  </div>
+  <div class="submenu" id="prereqMenu">
+    <div class="submenu-item" onclick="renderAddPrereq()">افزودن پیشنیاز</div>
+    <div class="submenu-item" onclick="renderRemovePrereq()">حذف پیشنیاز</div>
+  </div>
+</div>
+
+<div class="content" id="content">
+  <h2>به پنل مدیریت خوش آمدید</h2>
+</div>
+
+<script src="./js/adminpannel_courses.js"></script>
+</body>
+</html>

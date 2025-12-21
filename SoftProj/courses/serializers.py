@@ -17,7 +17,22 @@ class CourseSerializer(serializers.ModelSerializer):
         model = Course
         fields = ['name', 'code', 'unit','prerequisites']
 
-   
+
+class CourseCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Course
+        fields = ['name', 'code', 'unit']  # بدون prerequisites
+
+class CourseReadSerializer(serializers.ModelSerializer):
+    prerequisites = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = Course
+        fields = ['id','name', 'code', 'unit','prerequisites']  # بدون prerequisites
+
+    def get_prerequisites(self, obj):
+        return [{'id': p.id, 'name': p.name, 'code': p.code} for p in obj.prerequisites.all()]
+
 
 class SessionSerializer(serializers.ModelSerializer):
     class Meta:

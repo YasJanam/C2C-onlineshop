@@ -37,7 +37,14 @@ class SessionViewSet(ModelViewSet):
 
 class CourseViewSet(ModelViewSet):
     queryset = Course.objects.all()
-    serializer_class = CourseSerializer
+
+    def get_serializer_class(self):
+        if self.action in ['list', 'retrieve']:
+            return CourseReadSerializer
+        return CourseCreateSerializer
+    
+    #serializer_class = CourseSerializer
+    permission_classes = []
     filter_backends = [DjangoFilterBackend]
 
     filterset_fields = ['code', 'name', 'unit']
