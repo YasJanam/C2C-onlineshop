@@ -1,0 +1,196 @@
+
+/* ----------- ofered courses -------------*/
+
+.offered-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.offered-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  padding: 20px;
+  width: 350px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+/*
+.offered-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+*/
+.offered-card:hover {
+  transform: translateY(-5px);  /* حرکت کمی به بالا */
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);  /* سایه قوی‌تر */
+  background-color: #f1f8e9;  /* رنگ پس‌زمینه روشن هنگام هاور */
+}
+
+.offered-card h3 {
+  margin-bottom: 10px;
+  font-size: 20px;
+  color: #37474f;
+}
+
+.offered-card p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #546e7a;
+}
+
+.offered-card p strong {
+  color: #263238;
+}
+
+
+/* ---------- ourse details --------------*/
+/* کارت جزئیات درس ارائه شده */
+.offered-detail-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 30px 25px;
+  max-width: 700px;
+  margin: 30px auto;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  font-family: 'Tahoma', sans-serif;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* افکت hover روی کارت */
+.offered-detail-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+}
+
+/* تیتر کارت */
+.offered-detail-card h2 {
+  margin-bottom: 20px;
+  color: #1976d2; /* رنگ تیتر */
+  font-size: 28px;
+  text-align: center;
+}
+
+/* بخش جزئیات درس */
+.offered-detail-card p {
+  font-size: 16px;
+  margin: 6px 0;
+  line-height: 1.5;
+}
+
+/* لیست جلسات و پیش‌نیازها */
+.offered-detail-card ul {
+  list-style-type: disc;
+  padding-left: 25px;
+  margin: 10px 0 20px 0;
+  font-size: 15px;
+  color: #333;
+}
+
+/* عناوین بخش‌ها */
+.offered-detail-card h4 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  color: #1976d2;
+  font-size: 18px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 4px;
+}
+
+/* دکمه بازگشت */
+.offered-detail-card button {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 12px 25px;
+  background-color: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+/* افکت هاور دکمه */
+.offered-detail-card button:hover {
+  background-color: #115293;
+  transform: translateY(-2px);
+}
+
+/* Responsive برای موبایل */
+@media (max-width: 600px) {
+  .offered-detail-card {
+    width: 95%;
+    padding: 20px 15px;
+  }
+
+  .offered-detail-card h2 {
+    font-size: 24px;
+  }
+
+  .offered-detail-card h4 {
+    font-size: 16px;
+  }
+
+  .offered-detail-card p,
+  .offered-detail-card ul {
+    font-size: 14px;
+  }
+
+  .offered-detail-card button {
+    width: 100%;
+    text-align: center;
+    font-size: 15px;
+  }
+}
+
+
+/* -------- delete --------- */
+.offered-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 10px;
+}
+
+.delete-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background-color: #fdfdfd;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: background-color 0.3s, transform 0.2s;
+  cursor: pointer;
+}
+
+.delete-card:hover {
+  background-color: #fff7c0; /* زرد کم‌رنگ هنگام hover */
+  transform: translateY(-2px); /* کمی بالا رفتن برای حس تعاملی */
+}
+
+.delete-card .course-info {
+  font-weight: 600;
+  font-size: 16px;
+  color: #333;
+}
+
+.delete-btn {
+  padding: 8px 18px;
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.delete-btn:hover {
+  background-color: #e33b3f;
+  transform: scale(1.05); /* کمی بزرگ شدن روی hover */
+}
