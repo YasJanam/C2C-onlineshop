@@ -40,7 +40,6 @@ class SessionSerializer(serializers.ModelSerializer):
         fields = ["day_of_week", "time_slot", "location"]
 
 class CourseOfferingWriteSerializer(serializers.ModelSerializer):
-    # کاربر درس را از نوار بار انتخاب می‌کند، پس فقط code کافیست
     course_code = serializers.CharField(write_only=True)
     sessions = SessionSerializer(many=True, required=False)
 
@@ -56,7 +55,6 @@ class CourseOfferingWriteSerializer(serializers.ModelSerializer):
         ]
 
     def create(self, validated_data):
-        # گرفتن course از کد
         course_code = validated_data.pop('course_code')
         sessions_data = validated_data.pop('sessions', [])
 
@@ -65,10 +63,8 @@ class CourseOfferingWriteSerializer(serializers.ModelSerializer):
         except Course.DoesNotExist:
             raise serializers.ValidationError({"course_code": "Course not found"})
 
-        # ساخت CourseOffering
         offering = CourseOffering.objects.create(course=course, **validated_data)
 
-        # ساخت sessionها و اضافه کردن به m2m
         for session_data in sessions_data:
             session = Session.objects.create(**session_data)
             offering.sessions.add(session)
@@ -76,7 +72,6 @@ class CourseOfferingWriteSerializer(serializers.ModelSerializer):
         return offering
 
     def update(self, instance, validated_data):
-        # بروزرسانی course
         if 'course_code' in validated_data:
             course_code = validated_data.pop('course_code')
             try:
@@ -86,19 +81,35 @@ class CourseOfferingWriteSerializer(serializers.ModelSerializer):
 
         sessions_data = validated_data.pop('sessions', None)
 
-        # بروزرسانی سایر فیلدها
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
         instance.save()
 
         if sessions_data is not None:
-            # پاک کردن sessionهای قبلی و ایجاد sessionهای جدید
             instance.sessions.all().delete()
             for session_data in sessions_data:
                 session = Session.objects.create(**session_data)
                 instance.sessions.add(session)
 
         return instance
+    
+class CourseOfferingReadSerializer(serializers.ModelSerializer):
+    sessions = SessionSerializer(many=True, read_only=True)
+    course = CourseReadSerializer(read_only=True)
+
+    class Meta:
+        model = CourseOffering
+        fields = [
+            'id',
+            'code',
+            'course',
+            'group_code',
+            'semester',
+            'capacity',
+            'prof_name',
+            'sessions',
+        ]
+
 
 """
 class CourseOfferingWriteSerializer(serializers.ModelSerializer):
@@ -183,6 +194,7 @@ class CourseOfferingReadSerializer(serializers.ModelSerializer):
             'sessions',
         ]
 """
+"""
 class CourseOfferingReadSerializer(serializers.ModelSerializer):
     sessions = SessionSerializer(many=True, read_only=True)
     course = CourseReadSerializer(read_only=True)  # ← اضافه شد
@@ -191,14 +203,14 @@ class CourseOfferingReadSerializer(serializers.ModelSerializer):
         model = CourseOffering
         fields = [
             'code',
-            'course',          # ← خود course را برمی‌گرداند
+            'course',          
             'group_code',
             'semester',
             'capacity',
             'prof_name',
             'sessions',
         ]
-
+"""
 
 # courses/serializers.py
 from rest_framework import serializers

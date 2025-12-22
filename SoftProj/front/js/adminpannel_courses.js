@@ -1,25 +1,8 @@
-const API = 'http://127.0.0.1:8000';
-const content = document.getElementById('content');
-/*
-function toggleMenu(id) {
-  const menu = document.getElementById(id);
+//(() => {
+//const API = 'http://127.0.0.1:8000';
+//const content = document.getElementById('content');
 
-  // اگر وجود نداشت، هیچی
-  if (!menu) return;
 
-  // بستن بقیه submenu ها
-  document.querySelectorAll('.submenu').forEach(sm => {
-    if (sm !== menu) sm.style.display = 'none';
-  });
-
-  // toggle همین منو
-  if (menu.style.display === 'block') {
-    menu.style.display = 'none';
-  } else {
-    menu.style.display = 'block';
-  }
-}
-*/
 // فعال کردن باز و بسته شدن خودکار زیرمنوها
 document.querySelectorAll('.menu-item').forEach(item => {
   const targetId = item.getAttribute('data-target');
@@ -41,27 +24,6 @@ document.querySelectorAll('.menu-item').forEach(item => {
 
 
 /* ================= لیست دروس ================= */
-/*
-async function renderCourseList(){
-  content.innerHTML = `<h2>لیست دروس</h2><ul id="courseList"></ul>`;
-  const ul = document.getElementById('courseList');
-
-  try{
-    const res = await fetch(`${API}/courses/`);
-    const data = await res.json();
-   data.forEach(d=>{
-    const div = document.createElement('div');
-    div.className = 'course-card';
-    div.innerHTML = `<strong>${d.name}</strong><br>کد: ${d.code} | واحد: ${d.unit}`;
-    div.onclick = ()=>showCourseDetails(d.id);
-    content.appendChild(div);
-  });
-
-  }catch{
-    alert('خطا در دریافت لیست');
-  }
-}
-*/
 async function renderCourseList(){
   content.innerHTML = `<h2>لیست دروس</h2><div id="courseContainer" class="course-container"></div>`;
   const container = document.getElementById('courseContainer');
@@ -127,51 +89,6 @@ async function submitAdd(){
 }
 
 /* ================= آپدیت درس ================= */
-/*
-async function renderUpdateCourse(){
-  content.innerHTML = `<h2>انتخاب درس برای آپدیت</h2>`;
-
-  const res = await fetch(`${API}/courses/`);
-  const data = await res.json();
-
-  data.forEach(d=>{
-    const div = document.createElement('div');
-    div.className = 'update-item';
-    div.textContent = `${d.name} | ${d.code} | ${d.unit}`;
-    div.onclick = ()=>renderUpdateForm(d);
-    content.appendChild(div);
-  });
-}
-
-function renderUpdateForm(course){
-  content.innerHTML = `
-    <h2>آپدیت درس</h2>
-
-    <input id="updateName" value="${course.name}">
-    <input id="updateCode" value="${course.code}">
-    <input id="updateUnits" value="${course.unit}">
-
-    <br><br>
-    <button onclick="submitUpdate(${course.id})">ثبت تغییرات</button>
-  `;
-}
-
-async function submitUpdate(id){
-  const payload = {
-    name: updateName.value.trim(),
-    code: Number(updateCode.value),
-    unit: Number(updateUnits.value)
-  };
-
-  await fetch(`${API}/courses/${id}/`,{
-    method:'PATCH',
-    headers:{'Content-Type':'application/json'},
-    body: JSON.stringify(payload)
-  });
-
-  renderUpdateCourse();
-}
-*/
 async function renderUpdateCourse(){
   content.innerHTML = `<h2>انتخاب درس برای آپدیت</h2><div class="update-container"></div>`;
   const container = document.querySelector('.update-container');
@@ -244,37 +161,6 @@ async function submitUpdate(id){
 
 
 /* ================= حذف درس ================= */
-/*
-async function renderDeleteCourse(){
-  content.innerHTML = `<h2>حذف درس</h2>`;
-
-  const res = await fetch(`${API}/courses/`);
-  const data = await res.json();
-
-  data.forEach(d=>{
-    const btn = document.createElement('button');
-    btn.textContent = `حذف ${d.name}`;
-    btn.onclick = ()=>deleteCourse(d.id);
-    content.appendChild(btn);
-  });
-}
-*/
-/*
-async function renderDeleteCourse(){
-  content.innerHTML = `<h2>حذف درس</h2>`;
-
-  const res = await fetch(`${API}/courses/`);
-  const data = await res.json();
-
-  data.forEach(d=>{
-    const btn = document.createElement('button');
-    btn.textContent = `حذف ${d.name}`;
-    btn.className = 'delete-btn';   // ← اضافه شد
-    btn.onclick = ()=>deleteCourse(d.id);
-    content.appendChild(btn);
-  });
-}
-*/
 async function renderDeleteCourse(){
   content.innerHTML = `<h2>حذف درس</h2>`;
 
@@ -339,20 +225,6 @@ async function submitAddPrereq(){
   }
 }
 
-/*
-async function submitAddPrereq(){
-  await fetch(`${API}/courses/add-prerequisite/`,{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({
-      coursecode: mainCode.value,
-      prereqcode: preCode.value
-    })
-  });
-
-  alert('پیشنیاز اضافه شد');
-}
-*/
 function renderRemovePrereq(){
  content.innerHTML = `
     <h2>حذف پیشنیاز</h2>
@@ -393,44 +265,7 @@ async function submitRemovePrereq(){
   }
 }
 
-/*
-async function submitRemovePrereq(){
-  await fetch(`${API}/courses/remove-prerequisite/`,{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({
-      coursecode: mainCode.value,
-      prereqcode: preCode.value
-    })
-  });
 
-  alert('پیشنیاز حذف شد');
-}
-*/
-/* ================= جزئیات درس ================= */
-/*
-async function showCourseDetails(id){
-  const res = await fetch(`${API}/courses/${id}/`);
-  const d = await res.json();
-
-  content.innerHTML = `
-    <h2>جزئیات درس</h2>
-
-    <p>نام: ${d.name}</p>
-    <p>کد: ${d.code}</p>
-    <p>واحد: ${d.unit}</p>
-
-    <h4>پیشنیازها</h4>
-    <ul>
-      ${d.prerequisites.length
-        ? d.prerequisites.map(p=>`<li>${p.name} (${p.code})</li>`).join('')
-        : '<li>ندارد</li>'}
-    </ul>
-
-    <button onclick="renderCourseList()">بازگشت</button>
-  `;
-}
-*/
 async function showCourseDetails(id){
   const res = await fetch(`${API}/courses/${id}/`);
   const d = await res.json();
@@ -459,12 +294,11 @@ async function showCourseDetails(id){
 }
 
 /*
-     <div class="course-prereq">
-        <h4>پیشنیازها</h4>
-        <ul>
-          ${d.prerequisites.length
-            ? d.prerequisites.map(p=>`<li>${p.name} (${p.code})</li>`).join('')
-            : '<li>ندارد</li>'}
-        </ul>
-      </div>
-      */
+  window.renderCourseList = renderCourseList;
+  window.renderAddCourse = renderAddCourse;
+  window.renderUpdateCourse = renderUpdateCourse;
+  window.renderDeleteCourse = renderDeleteCourse;
+  window.renderAddPrereq = renderAddPrereq;
+  window.renderRemovePrereq = renderRemovePrereq;
+})();
+*/

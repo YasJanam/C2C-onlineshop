@@ -1,6 +1,8 @@
-const API = 'http://127.0.0.1:8000';
-const content = document.getElementById('content');
+//(() => {
+//const API = 'http://127.0.0.1:8000';
+//const content = document.getElementById('content');
 
+/*
 document.querySelectorAll('.menu-item').forEach(item => {
   const targetId = item.getAttribute('data-target');
   if (!targetId) return;
@@ -16,7 +18,7 @@ document.querySelectorAll('.menu-item').forEach(item => {
     menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
   });
 });
-
+*/
 // ---------------- coursesList ------------------
 async function renderOferedCourseList() {
   content.innerHTML = `
@@ -136,52 +138,6 @@ function showCourseOfferingDetails(offering) {
 
 
 /* ----------------create---------------- */
-/*
-function renderOfereCourse() {
-  content.innerHTML = `
-    <h2>ارائه درس</h2>
-    <div class="offered-form">
-      <input id="courseId" placeholder="آیدی درس">
-      <input id="groupCode" placeholder="کد گروه">
-      <input id="profName" placeholder="نام استاد">
-      <input id="capacity" placeholder="ظرفیت" type="number">
-      <input id="semester" placeholder="ترم" type="number">
-      <button onclick="submitAddOfferedCourse()">ثبت</button>
-    </div>
-  `;
-}
-
-async function submitAddOfferedCourse() {
-  try {
-    const payload = {
-      course: document.getElementById('courseId').value,
-      group_code: document.getElementById('groupCode').value,
-      prof_name: document.getElementById('profName').value,
-      capacity: Number(document.getElementById('capacity').value),
-      semester: Number(document.getElementById('semester').value)
-    };
-
-    const res = await fetch(`${API}/courseofferings/`, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(payload)
-    });
-
-    if (!res.ok) {
-      const err = await res.json();
-      console.error(err);
-      alert('خطا در افزودن درس ارائه شده: ' + (err.detail || 'مشکل نامشخص'));
-      return;
-    }
-
-    alert('درس ارائه شده با موفقیت اضافه شد');
-    renderOferedCourseList();
-  } catch (error) {
-    console.error(error);
-    alert('خطا در ارتباط با سرور');
-  }
-}
-*/
 
 async function renderOfferCourse() {
   content.innerHTML = `
@@ -370,18 +326,34 @@ async function renderUpdateOferedCourse() {
 
 function renderUpdateOfferedForm(id) {
   content.innerHTML = `
+  <div class="form-header">
+    <button id="backBtn" class="btn-back">⬅ بازگشت</button>
     <h2>آپدیت درس ارائه شده</h2>
-    <div class="offered-form">
-      <input id="groupCode" class="input-field" placeholder="کد گروه">
-      <input id="profName" class="input-field" placeholder="نام استاد">
-      <input id="capacity" class="input-field" placeholder="ظرفیت" type="number">
-      <input id="semester" class="input-field" placeholder="ترم" type="number">
+  </div>
 
-      <div id="sessionsContainer"><h4>جلسات</h4></div>
-      <button type="button" id="addSessionBtn" class="btn-add">افزودن جلسه</button>
-      <button type="button" id="submitUpdateOfferedBtn" class="btn-submit">ثبت تغییرات</button>
+  <div class="offered-form">
+    <input id="groupCode" class="input-field" placeholder="کد گروه">
+    <input id="profName" class="input-field" placeholder="نام استاد">
+    <input id="capacity" class="input-field" placeholder="ظرفیت" type="number">
+    <input id="semester" class="input-field" placeholder="ترم" type="number">
+
+    <div id="sessionsContainer"><h4>جلسات</h4></div>
+    <button type="button" id="addSessionBtn" class="btn-add">➕ افزودن جلسه</button>
+
+    <div class="form-actions">
+      <button type="button" id="submitUpdateOfferedBtn" class="btn-submit">
+        💾 ثبت تغییرات
+      </button>
     </div>
-  `;
+  </div>
+`;
+
+const backBtn = document.getElementById('backBtn');
+backBtn.addEventListener('click', () => {
+  renderUpdateOferedCourse();
+});
+
+
 
   const sessionsContainer = document.getElementById('sessionsContainer');
 
@@ -490,74 +462,8 @@ function renderUpdateOfferedForm(id) {
   });
 }
 
-/*
-async function renderUpdateOferedCourse() {
-  content.innerHTML = `<h2>انتخاب درس ارائه شده برای آپدیت</h2><div class="offered-container"></div>`;
-  const container = document.querySelector('.offered-container');
 
-  try {
-    const res = await fetch(`${API}/courseofferings/`);
-    const data = await res.json();
 
-    data.forEach(c => {
-      const card = document.createElement('div');
-      card.className = 'offered-card';
-      card.innerHTML = `
-        <h3>${c.course.name} (${c.course.code})</h3>
-        <p><strong>گروه:</strong> ${c.group_code}</p>
-        <button onclick="renderUpdateOfferedForm(${c.id})">آپدیت</button>
-      `;
-      container.appendChild(card);
-    });
-  } catch (error) {
-    console.error(error);
-    alert('خطا در دریافت لیست دروس ارائه شده');
-  }
-}
-
-function renderUpdateOfferedForm(id) {
-  content.innerHTML = `
-    <h2>آپدیت درس ارائه شده</h2>
-    <div class="offered-form">
-      <input id="groupCode" placeholder="کد گروه">
-      <input id="profName" placeholder="نام استاد">
-      <input id="capacity" placeholder="ظرفیت" type="number">
-      <input id="semester" placeholder="ترم" type="number">
-      <button onclick="submitUpdateOfferedCourse(${id})">ثبت تغییرات</button>
-    </div>
-  `;
-}
-
-async function submitUpdateOfferedCourse(id) {
-  try {
-    const payload = {
-      group_code: document.getElementById('groupCode').value,
-      prof_name: document.getElementById('profName').value,
-      capacity: Number(document.getElementById('capacity').value),
-      semester: Number(document.getElementById('semester').value)
-    };
-
-    const res = await fetch(`${API}/course-offerings/${id}/`, {
-      method: 'PATCH',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(payload)
-    });
-
-    if (!res.ok) {
-      const err = await res.json();
-      console.error(err);
-      alert('خطا در آپدیت درس ارائه شده: ' + (err.detail || 'مشکل نامشخص'));
-      return;
-    }
-
-    alert('درس ارائه شده با موفقیت آپدیت شد');
-    renderOferedCourseList();
-  } catch (error) {
-    console.error(error);
-    alert('خطا در ارتباط با سرور');
-  }
-}
-*/
 
 /* --------------- delete ---------------*/
 async function renderDeleteOferedCourse() {
@@ -606,44 +512,12 @@ async function deleteOfferedCourse(id) {
   }
 }
 
+
 /*
-async function renderDeleteOferedCourse() {
-  content.innerHTML = `<h2>حذف درس ارائه شده</h2><div class="offered-container"></div>`;
-  const container = document.querySelector('.offered-container');
+window.renderOferedCourseList = renderOferedCourseList;
+window.renderOfferCourse = renderOfferCourse;
+window.renderUpdateOferedCourse = renderUpdateOferedCourse;
+window.renderDeleteOferedCourse = renderDeleteOf;
 
-  try {
-    const res = await fetch(`${API}/courseofferings/`);
-    const data = await res.json();
-
-    data.forEach(c => {
-      const btn = document.createElement('button');
-      btn.textContent = `حذف ${c.course.name} (${c.course.code})`;
-      btn.className = 'delete-btn';
-      btn.onclick = () => deleteOfferedCourse(c.id);
-      container.appendChild(btn);
-    });
-  } catch (error) {
-    console.error(error);
-    alert('خطا در دریافت لیست دروس ارائه شده');
-  }
-}
-
-async function deleteOfferedCourse(id) {
-  if (!confirm('مطمئن هستید؟')) return;
-
-  try {
-    const res = await fetch(`${API}/course-offerings/${id}/`, { method: 'DELETE' });
-    if (!res.ok) {
-      const err = await res.json();
-      console.error(err);
-      alert('خطا در حذف درس ارائه شده');
-      return;
-    }
-    alert('درس ارائه شده حذف شد');
-    renderDeleteOferedCourse();
-  } catch (error) {
-    console.error(error);
-    alert('خطا در ارتباط با سرور');
-  }
-}
+})();
 */
