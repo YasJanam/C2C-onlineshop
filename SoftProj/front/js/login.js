@@ -30,13 +30,13 @@ loginBtn.addEventListener('click', async () => {
 
 
       if (data.role === 'admin') {
-        window.location.href = '/adminpanel.html';
+        window.location.href = './adminpanel.html';
       }
        else if (data.role === 'student') {
-        window.location.href = '/studentpanel.html';
+        window.location.href = './studentpanel.html';
       }
       else {
-         window.location.href = '/profpanel.html';
+         window.location.href = './profpanel.html';
       }
 
     } else {

@@ -17,16 +17,11 @@
   transition: transform 0.2s, box-shadow 0.2s;
   cursor: pointer;
 }
-/*
+
 .offered-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-}
-*/
-.offered-card:hover {
-  transform: translateY(-5px);  /* حرکت کمی به بالا */
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);  /* سایه قوی‌تر */
-  background-color: #f1f8e9;  /* رنگ پس‌زمینه روشن هنگام هاور */
+  transform: translateY(-5px);  
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
+  background-color: #f1f8e9; 
 }
 
 .offered-card h3 {
@@ -59,16 +54,14 @@
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-/* افکت hover روی کارت */
 .offered-detail-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
 }
 
-/* تیتر کارت */
 .offered-detail-card h2 {
   margin-bottom: 20px;
-  color: #1976d2; /* رنگ تیتر */
+  color: #1976d2; 
   font-size: 28px;
   text-align: center;
 }
@@ -169,8 +162,8 @@
 }
 
 .delete-card:hover {
-  background-color: #fff7c0; /* زرد کم‌رنگ هنگام hover */
-  transform: translateY(-2px); /* کمی بالا رفتن برای حس تعاملی */
+  background-color: #fff7c0; 
+  transform: translateY(-2px); 
 }
 
 .delete-card .course-info {

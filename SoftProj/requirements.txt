@@ -4,3 +4,4 @@ djangorestframework-simplejwt
 drf-yasg
 PyJWT
 django-filter
+corsheaders

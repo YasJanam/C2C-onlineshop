@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import status
 
+
 @api_view(['POST'])
 def login_api(request):
     username = request.data.get('username')
@@ -18,11 +19,50 @@ def login_api(request):
     user = authenticate(username=username, password=password)
 
     if user:
-            # صادر کردن توکن JWT
-            refresh = RefreshToken.for_user(user)
-            access_token = str(refresh.access_token)
+        refresh = RefreshToken.for_user(user)
+        
+        if user.groups.filter(name='admin').exists():
+            role = 'admin'
+        elif user.groups.filter(name='prof').exists():
+            role = 'prof'
+        else:
+            role = 'student'
 
-            # تعیین نقش بر اساس گروه‌ها و is_staff
+        return Response({
+            "user": {
+                "id": user.id,
+                "username": user.username,
+                "email": user.email,
+            },
+            "refresh": str(refresh),
+            "access": str(refresh.access_token),
+            "role": role,
+        }, status=status.HTTP_200_OK)
+    
+    # اگر authenticate ناموفق بود
+    return Response(
+        {"detail": "Invalid credentials"},
+        status=status.HTTP_401_UNAUTHORIZED
+    )
+"""
+@api_view(['POST'])
+def login_api(request):
+    username = request.data.get('username')
+    password = request.data.get('password')
+
+    if not username or not password:
+        return Response(
+            {"detail": "Username and password are required"},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    user = authenticate(username=username, password=password)
+
+    if user:
+          
+            refresh = RefreshToken.for_user(user)
+            #access_token = str(refresh.access_token)
+     
             if user.groups.filter(name='admin').exists() :
                 role = 'admin'
             elif user.groups.filter(name='prof').exists():
@@ -31,7 +71,6 @@ def login_api(request):
                 role = 'student'
 
       
-
     return Response({
         "user": {
             "id": user.id,
@@ -42,7 +81,7 @@ def login_api(request):
         "access": str(refresh.access_token),
         "role":role,
     }, status=status.HTTP_200_OK)
-
+"""
 
 
 @api_view(['POST'])
