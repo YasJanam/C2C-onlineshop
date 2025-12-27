@@ -154,12 +154,7 @@ body {
   transition: transform 0.2s, box-shadow 0.2s;
   cursor: pointer;
 }
-/*
-.offered-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-}
-*/
+
 .offered-card:hover {
   transform: translateY(-5px);  /* حرکت کمی به بالا */
   box-shadow: 0 10px 25px rgba(0,0,0,0.2);  /* سایه قوی‌تر */

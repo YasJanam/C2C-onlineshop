@@ -8,14 +8,16 @@
   margin-top: 20px;
 }
 
+
 .offered-card {
   background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0 6px 15px rgba(0,0,0,0.1);
   padding: 20px;
   width: 350px;
-  transition: transform 0.2s, box-shadow 0.2s;
   cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  
 }
 
 .offered-card:hover {

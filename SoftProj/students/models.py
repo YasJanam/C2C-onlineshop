@@ -33,8 +33,8 @@ class Semester(models.Model):
 """    
 
 class StudentSemester(models.Model):
-    student = models.ForeignKey(User, on_delete=models.CASCADE)
-    semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
+    student = models.ForeignKey(User, on_delete=models.PROTECT)
+    semester = models.ForeignKey(Semester, on_delete=models.PROTECT)
     
     min_units = models.PositiveSmallIntegerField(default=12)  #,blank=True,null=True
     max_units = models.PositiveSmallIntegerField(default=24)
@@ -82,8 +82,8 @@ class StudentSemester(models.Model):
 
 
 class StudentCourse(models.Model):
-    student_semester = models.ForeignKey(StudentSemester, on_delete=models.CASCADE)
-    course_offering = models.ForeignKey(CourseOffering, on_delete=models.CASCADE)
+    student_semester = models.ForeignKey(StudentSemester, on_delete=models.PROTECT)
+    course_offering = models.ForeignKey(CourseOffering, on_delete=models.PROTECT)
     
     grade = models.FloatField(
         null=True, 

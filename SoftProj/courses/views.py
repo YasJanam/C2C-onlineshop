@@ -10,32 +10,37 @@ from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
 from .filters import CourseOfferingFilter
 from students.models import *
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
 
 
 
 class CourseOfferingViewSet(ModelViewSet):
-    queryset = CourseOffering.objects.filter(semester__is_active=True).distinct()
-    #permission_classes = [IsAuthenticated] 
-    """
+    queryset = CourseOffering.objects.all()  #filter(semester__is_active=True).distinct()
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated] 
+    
     def get_queryset(self):
         user = self.request.user
 
-        if user.groups.filter(name='student').exists():
-            try:
-                active_semester = StudentSemester.objects.filter(
-                    student_id=user.id,
-                    is_active=True
-                ).latest('semester__year', 'semester__term')
-            except StudentSemester.DoesNotExist:
-                return CourseOffering.objects.none()
-            
-            return CourseOffering.objects.filter(semester=active_semester) #semester
+        if user.groups.filter(name='admin').exists():
+            semeter_id = self.request.query_params.get('semester')         
+            if semeter_id:
+                semes = Semester.objects.get(id=semeter_id)
+                return CourseOffering.objects.filter(semester=semes)  
+            else:
+                return CourseOffering.objects.filter(semester__is_active=True)
+             
+            #return CourseOffering.objects.all()
 
-        if user.groups.filter(name__in=['admin', 'prof']).exists():
-            return CourseOffering.objects.all()
+        if user.groups.filter(name__in=['student']).exists():
+            return CourseOffering.objects.filter(semester__is_active=True)
         
-        return CourseOffering.objects.all()
-    """
+        if user.groups.filter(name__in=[ 'prof']).exists():
+            return CourseOffering.objects.filter(semester__is_active=True,
+                                                 prof = user)
+        return CourseOffering.objects.all().distinct()
+    
     filter_backends = [DjangoFilterBackend]
     filterset_class = CourseOfferingFilter
 

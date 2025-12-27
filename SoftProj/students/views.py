@@ -86,10 +86,22 @@ class StudentCourseViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated] 
 
     def get_queryset(self):
-        return StudentCourse.objects.filter(
-            student_semester__is_active=True,
-            student_semester__student=self.request.user
-        )
+        user = self.request.user
+
+        if user.groups.filter(name='student').exists():
+            return StudentCourse.objects.filter(
+                student_semester__is_active=True,
+                student_semester__student=self.request.user
+            )
+
+        if user.groups.filter(name='prof').exists():
+            return StudentCourse.objects.filter(
+                student_semester__is_active=True,
+                course_offering__prof=user
+            ).select_related('course_offering', 'student_semester__student')
+        
+        else:
+            return StudentCourse.objects.all()
 
     
     @action(detail=False, methods=['post'], url_path='enroll')
@@ -98,3 +110,55 @@ class StudentCourseViewSet(ModelViewSet):
         serializer.is_valid(raise_exception=True)
         student_course = serializer.save()
         return Response(StudentCourseSerializer(student_course).data, status=201)
+    
+
+    # =======================
+    # Action برای گرفتن لیست دانشجویان یک درس
+    # =======================
+    @action(detail=True, methods=['get'], url_path='students')
+    def students(self, request, pk=None):
+        user = request.user
+
+        if not user.groups.filter(name='prof').exists():
+            return Response({"detail": "Access denied"}, status=status.HTTP_403_FORBIDDEN)
+
+        # گرفتن همه دانشجویان درس مشخص
+        students = StudentCourse.objects.filter(
+            course_offering_id=pk,
+            course_offering__prof=user
+        ).select_related('student_semester__student')
+
+        # ساخت خروجی خوانا
+        student_list = [
+            {
+                "id": s.student_semester.student.id,
+                "full_name": f"{s.student_semester.student.first_name} {s.student_semester.student.last_name}"
+            }
+            for s in students
+        ]
+
+        return Response(student_list, status=status.HTTP_200_OK)
+
+    
+    # =======================
+    # حذف دانشجو از درس
+    # =======================
+    @action(detail=True, methods=['delete'], url_path='students/(?P<student_id>[^/.]+)')
+    def remove_student(self, request, pk=None, student_id=None):
+        user = request.user
+
+        if not user.groups.filter(name='prof').exists():
+            return Response({"detail": "Access denied"}, status=status.HTTP_403_FORBIDDEN)
+
+        try:
+            # پیدا کردن StudentCourse مربوط به آن درس و دانشجو
+            student_course = StudentCourse.objects.get(
+                course_offering_id=pk,
+                course_offering__prof=user,
+                student_semester__student__id=student_id,
+            )
+        except StudentCourse.DoesNotExist:
+            return Response({"detail": "دانشجو در این درس وجود ندارد"}, status=404)
+
+        student_course.delete()
+        return Response({"detail": "دانشجو حذف شد"}, status=204)

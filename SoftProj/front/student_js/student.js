@@ -95,6 +95,32 @@ async function renderOferedCourseList() {
 
 async function fetchOfferedCourses(query = '') {
   let url = `${API}/courseofferings/`;
+  if (query) {
+    const params = new URLSearchParams();
+    params.append('search', query);
+    url += `?${params.toString()}`;
+  }
+
+  //const token = localStorage.getItem('access'); // یا هر اسمی که ذخیره کردی
+
+  const res = await fetch(url, {
+    method: 'GET',
+    headers: {
+      //'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    }
+  });
+
+  if (!res.ok) {
+    throw new Error('خطا در دریافت داده‌ها');
+  }
+
+  return await res.json();
+}
+
+/*
+async function fetchOfferedCourses(query = '') {
+  let url = `${API}/courseofferings/`;
   if(query) {
     const params = new URLSearchParams();
     params.append('search', query);
@@ -104,7 +130,7 @@ async function fetchOfferedCourses(query = '') {
   if(!res.ok) throw new Error('خطا در دریافت داده‌ها');
   return await res.json();
 }
-
+*/
 // نمایش جزئیات کامل درس ارائه شده + پیشنیازها
 function showCourseOfferingDetails(offering) {
   const course = offering.course;

@@ -97,13 +97,13 @@ class Semester(models.Model):
 
 
 class CourseOffering(models.Model):
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='schedules', verbose_name="course")
+    course = models.ForeignKey(Course, on_delete=models.Model, related_name='schedules', verbose_name="course")
     capacity = models.PositiveIntegerField(verbose_name="capacity",default=30)
     #prof_name = models.CharField(max_length=50, verbose_name="prof_name",blank=True,null=True,default="نامشخص")  
-    prof = models.ForeignKey(User,on_delete=models.CASCADE, related_name='professor', verbose_name="prof-name")  
+    prof = models.ForeignKey(User,on_delete=models.Model, related_name='professor', verbose_name="prof-name")  
     sessions = models.ManyToManyField(Session,blank=True,null=True, related_name="course_schedules")
     #semester = models.IntegerField(max_length=30,default=20251,blank=True,null=True, verbose_name="semester") 
-    semester = models.ForeignKey(Semester,on_delete=models.CASCADE, related_name='semester', verbose_name="semester-course")
+    semester = models.ForeignKey(Semester,on_delete=models.Model, related_name='semester', verbose_name="semester-course")
     group_code = models.CharField(
         max_length=10,
         verbose_name="group code"
