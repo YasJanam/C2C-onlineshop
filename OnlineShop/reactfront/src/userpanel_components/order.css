@@ -1,0 +1,18 @@
+
+
+.orders-back-btn{
+    background-color: rgb(10, 79, 127);
+    color: rgb(253, 252, 252);
+    font-size: 28px;
+    padding: 6px;
+    padding-top: 3px;
+    padding-bottom: 7px;
+    border-radius: 10px;
+  
+}
+
+.orders-back-btn:hover{
+    background-color: rgb(210, 208, 208);
+    color: rgb(4, 5, 5);
+    border-radius: 10px;
+}

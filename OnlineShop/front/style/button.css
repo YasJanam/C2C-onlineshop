@@ -1,0 +1,193 @@
+/* ---------- add button ------------*/
+.add-button {
+        padding:10px;
+        background:#28a745; 
+        color:white; 
+        border:none; 
+        border-radius:8px;
+        cursor:pointer; 
+        font-size:16px;  
+}
+
+.add-button2 {
+        padding:10px;
+        background:#3810a5;
+        color:white; 
+        border:none; 
+        border-radius:8px;
+        cursor:pointer; 
+        font-size:17px;  
+}
+
+.add-button2:hover {
+  background: linear-gradient(135deg, #0eb5da, #1930fb);
+  transform: translateY(-3px);
+  box-shadow: 
+    0 8px 20px rgba(25, 118, 210, 0.3),
+    0 4px 10px rgba(25, 118, 210, 0.2);
+}
+
+/*--------- دکمه خرید ---------*/
+.cart-button2 {
+        padding:5px 8px 8px 8px;
+     
+        background:#28a745; 
+        color:white; 
+        border:none; 
+        border-radius:8px;
+        cursor:pointer; 
+        font-size:20px;  
+      
+
+}
+
+
+.cart-button2:hover {
+  background: linear-gradient(135deg, #fd0b4c, #fb4a19);
+  transform: translateY(-3px);
+  box-shadow: 
+    0 8px 20px rgba(25, 118, 210, 0.3),
+    0 4px 10px rgba(25, 118, 210, 0.2);
+   
+}
+
+
+.cart-button2:active {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+}
+
+
+
+.cart-button {
+        padding: 7px;;
+        background:#1976d2; 
+        color:white; 
+        border:none; 
+        border-radius:8px;
+        cursor:pointer; 
+        font-size:14px;  
+}
+
+.cart-button:hover {
+  background: linear-gradient(135deg, #12a8f9, #19a4fb);
+  transform: translateY(-3px);
+  box-shadow: 
+    0 8px 20px rgba(25, 118, 210, 0.3),
+    0 4px 10px rgba(25, 118, 210, 0.2);
+}
+
+/* ------ add category button ------*/
+.add-cat-button {
+        padding-left: 8px;
+        /*padding-bottom: 1px;
+        padding-top: 1px; */
+        padding-right: 8px;
+        background:#1976d2; 
+        color:white; 
+        border:none; 
+        border-radius:8px;
+        cursor:pointer; 
+        font-size:17px;  
+}
+
+.add-cat-button:hover {
+  background: linear-gradient(135deg, #12a8f9, #19a4fb);
+  transform: translateY(-3px);
+  box-shadow: 
+    0 8px 20px rgba(25, 118, 210, 0.3),
+    0 4px 10px rgba(25, 118, 210, 0.2);
+}
+
+/* ---------- remove category --------*/
+.remove-cat-button {
+        padding-left: 13px;
+      /*padding-bottom: 1px;
+        padding-top: 1px; */
+        padding-right: 13px;
+        background:#980303; 
+        color:white; 
+        border:none; 
+        border-radius:8px;
+        cursor:pointer; 
+        font-size:17px;  
+}
+
+.remove-cat-button:hover {
+  background: linear-gradient(135deg, #f91216, #fb3019);
+  transform: translateY(-3px);
+  box-shadow: 
+    0 8px 20px rgba(25, 118, 210, 0.3),
+    0 4px 10px rgba(25, 118, 210, 0.2);
+}
+
+
+.delete-cartItem-button {
+    padding:10px; background:#980303; color:white; border:none; border-radius:8px;
+    cursor:pointer; font-size:13px;
+}
+
+.delete-cartItem-button:hover {
+  background: linear-gradient(135deg, #f91216, #fb3019);
+  transform: translateY(-3px);
+  box-shadow: 
+    0 8px 20px rgba(210, 164, 25, 0.3),
+    0 4px 10px rgba(249, 153, 27, 0.2);
+}
+
+/* ------ delete category ------*/
+.delete-category-button {
+    padding:10px; background:#980303; color:white; border:none; border-radius:8px;
+    cursor:pointer; font-size:19px;
+}
+
+.delete-category-button:hover {
+  background: linear-gradient(135deg, #f91216, #fb3019);
+  transform: translateY(-3px);
+  box-shadow: 
+    0 8px 20px rgba(210, 164, 25, 0.3),
+    0 4px 10px rgba(249, 153, 27, 0.2);
+}
+
+
+.back-button {
+    padding:12px; background:#980303; color:white; border:none; border-radius:8px;
+    cursor:pointer; font-size:16px;
+}
+
+.back-button2 {
+    padding:10px; background:#3810a5; color:white; border:none; border-radius:8px;
+    cursor:pointer; font-size:14px;
+}
+
+.back-button2:hover {
+  background: linear-gradient(135deg, #286df7, #08a0e1);
+  transform: translateY(-3px);
+  box-shadow: 
+    0 8px 20px rgba(25, 118, 210, 0.3),
+    0 4px 10px rgba(25, 118, 210, 0.2);
+}
+
+
+/* --------add new category ---------*/
+.add-category-button {
+        padding:10px;
+        background:#10a52b;
+        color:white; 
+        border:none; 
+        border-radius:8px;
+        cursor:pointer; 
+        font-size:20px;  
+}
+
+.add-category-button:hover {
+  background: linear-gradient(135deg,#dad30e, #5ba80d, #dad30e);
+  color: white;
+  font-size: 18px;
+  transform: translateY(-3px);
+  box-shadow: 
+    0 8px 20px rgba(25, 118, 210, 0.3),
+    0 4px 10px rgba(25, 118, 210, 0.2);
+
+}
+

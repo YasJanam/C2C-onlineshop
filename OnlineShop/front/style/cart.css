@@ -1,0 +1,76 @@
+
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-family: 'Vazirmatn', Tahoma, sans-serif;
+    font-size: 15px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+
+.cart-table thead tr {
+    background: linear-gradient(90deg, #2980b9, #0580ac);
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+
+.cart-table th, .enrolled-table td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+
+.cart-table tbody tr:nth-child(odd) { 
+    background-color: #f9f9f9; 
+}
+.cart-table tbody tr:nth-child(even) { 
+    background-color: #e0f7fa; 
+}
+
+
+
+
+.cart-table tbody tr:hover { 
+    background: linear-gradient(90deg, #fff9c4, #fff59d); 
+    color: #383737; 
+    transform: scale(1.02); 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: all 0.3s ease; 
+}
+
+.cart-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 12px; 
+    font-family: Arial, sans-serif;
+}
+
+.cart-table th {
+    background-color: #2c3e50;
+    color: white;
+    padding: 10px;
+    border-radius: 8px 8px 0 0;
+}
+
+.cart-row {
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-radius: 5px;
+    transition: transform 0.2s, background-color 0.3s;
+}
+
+.cart-row:hover {
+    transform: translateY(-2px);
+    background-color: #d0e7ff;
+}
+
+.cart-row td {
+    padding: 12px 10px;
+    text-align: center;
+}

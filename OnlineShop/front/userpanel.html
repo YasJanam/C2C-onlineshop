@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fa">
+    <head>
+        <title> Online shop</title>
+        <!--css-->
+        <link rel="stylesheet" href="style/userpanel.css">
+        <link rel="stylesheet" href="style/cart.css">
+        <link rel="stylesheet" href="style/button.css">
+        <link rel="stylesheet" href="style/navbar.css">
+        <link rel="stylesheet" href="style/p_h_input.css">
+        <link rel="stylesheet" href="style/comment.css">
+
+    </head>
+    <body>
+
+        <!-- Navbar -->
+         <!-- 
+        <nav class="navbar">
+        <span id="hamburger">&#9776;</span>
+        <span class="logo">OnlineShop</span>
+        </nav> -->
+
+
+        <div class="sidebar">
+            <h2>پنل کاربری</h2>
+            <!--user products-->
+            <div class="menu-item" data-target="home-menu">
+                خانه
+            </div>
+            <div class="submenu" id="home-menu">
+                <div class="submenu-item" onclick="renderHomePage()">صفحه اصلی</div>
+            </div>
+
+
+            <div class="menu-item" data-target="products-menu">
+                فروشگاه من
+            </div>
+            <div class="submenu" id="products-menu">
+                <div class="submenu-item" onclick="renderUserProducts()">محصولات من</div>
+                <div class="submenu-item" onclick="renderAddUserProduct()">افزودن محصول جدید</div>
+            </div>
+
+
+            <div class="menu-item" data-target="cart-menu">
+                 خرید
+            </div>
+            <div class="submenu" id="cart-menu">
+                <div class="submenu-item" onclick="renderUserCart()">سبد خرید</div>
+                <div class="submenu-item" onclick="renderUserOrders()"> خریدهای قبلی</div>
+            </div>            
+
+            <div class="menu-item" data-target="profile-menu" onclick="myProfile()">
+                 پروفایل
+            </div>
+            
+            
+        </div>
+
+        <!-- Overlay -->
+        <!--<div id="overlay" class="overlay"></div>-->
+
+        <div class="content" id="content" >
+        </div>
+
+        <!--js-->
+        <script src="js/global.js" defer></script>
+        <script src="js/userpanel.js" defer></script>
+        <script src="js/cart.js" defer></script>
+        <script src="js/order.js" defer></script>
+        <script src="js/profile.js" defer></script>
+    </body>
+</html>

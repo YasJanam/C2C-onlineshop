@@ -1,0 +1,349 @@
+/* استایل جدول */
+.product-table-container {
+  margin: 30px auto;
+  max-width: 100%;
+}
+
+.table-header {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  color: white;
+  padding: 25px;
+  border-radius: 15px 15px 0 0;
+  margin-bottom: 0;
+}
+
+.table-header h2 {
+  color: white;
+  margin: 0;
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.table-header h2::before {
+  content: "📊";
+  font-size: 1.5rem;
+}
+
+.table-description {
+  color: rgba(255, 255, 255, 0.9);
+  margin-top: 10px;
+  font-size: 1rem;
+}
+
+.products-table {
+  width: 100%;
+  background: white;
+  border-collapse: collapse;
+  border-radius: 0 0 15px 15px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* هدر جدول */
+.table-header-row {
+  background: #f8f9fa;
+  border-bottom: 3px solid #4dabf7;
+}
+
+.table-header-row th {
+  padding: 20px 25px;
+  text-align: right;
+  color: #1e3c72;
+  font-weight: bold;
+  font-size: 1.1rem;
+  border-left: 1px solid #e0e0e0;
+}
+
+.table-header-row th:first-child {
+  border-left: none;
+}
+
+/* ردیف‌های جدول */
+.table-row {
+  border-bottom: 1px solid #eee;
+  transition: all 0.3s ease;
+}
+
+.table-row:hover {
+  background: #f0f7ff;
+  transform: translateY(-2px);
+  box-shadow: 0 3px 15px rgba(77, 171, 247, 0.15);
+}
+
+.table-row:last-child {
+  border-bottom: none;
+}
+
+.table-row td {
+  padding: 20px 25px;
+  color: #555;
+  font-size: 1rem;
+  line-height: 1.6;
+  border-left: 1px solid #f0f0f0;
+  font-size: 17px;
+}
+
+.table-row td:first-child {
+  border-left: none;
+}
+
+/* سلول‌های خاص */
+.table-row td:nth-child(1) {
+  color: #1e3c72;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.table-row td:nth-child(4) {
+  font-weight: bold;
+  color: #2a5298;
+}
+
+/* وضعیت‌ها */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.status-active {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.status-inactive {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.status-pending {
+  background: #fff8e1;
+  color: #ff8f00;
+}
+
+/* آیکون وضعیت */
+.status-icon {
+  margin-left: 8px;
+  font-size: 0.8rem;
+}
+
+/* دکمه‌های عملیات */
+.table-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+}
+
+.table-button{
+    font-size: 20px;
+    padding: 5px;
+    background-color: #ffffff;
+}
+
+.table-button:hover{
+    font-size: 20px;
+    padding: 5px;
+    background-color: #fbf186;
+    
+}
+
+
+.table-buy-button{
+    font-size: 24px;
+    padding: 7px;
+    width: 100%;
+    background-color: #e7e7e4;
+    color: #1e3c72;
+}
+
+.table-buy-button:hover{
+    background-color: #ff9800;
+    color: #fafafb;
+}
+
+
+.table-disable-buy-button{
+  display: none;
+}
+
+/* فوتر جدول */
+.table-footer {
+  background: #f8f9fa;
+  padding: 20px 25px;
+  border-top: 2px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 0 0 15px 15px;
+}
+
+
+
+/* فوتر جدول */
+.table-footer {
+  background: #f8f9fa;
+  padding: 20px 25px;
+  border-top: 2px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 0 0 15px 15px;
+}
+
+.table-info {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+/* پینگیج */
+.pagination {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.pagination-btn {
+  padding: 10px 18px;
+  border: 1px solid #ddd;
+  background: white;
+  color: #555;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 0.9rem;
+  min-width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination-btn:hover:not(.disabled) {
+  background: #f0f7ff;
+  border-color: #4dabf7;
+  color: #1e3c72;
+}
+
+.pagination-btn.active {
+  background: #1e3c72;
+  color: white;
+  border-color: #1e3c72;
+}
+
+.pagination-btn.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-dots {
+  color: #999;
+  padding: 0 5px;
+}
+
+/* انیمیشن‌ها */
+@keyframes fadeInRow {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.table-row {
+  animation: fadeInRow 0.5s ease forwards;
+}
+
+.table-row:nth-child(even) {
+  animation-delay: 0.1s;
+}
+
+.table-row:nth-child(odd) {
+  animation-delay: 0.2s;
+}
+
+/* ریسپانسیو */
+@media (max-width: 1200px) {
+  .products-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  
+  .table-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .table-btn {
+    min-width: auto;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .table-header {
+    padding: 20px;
+  }
+  
+  .table-header-row th,
+  .table-row td {
+    padding: 15px;
+  }
+  
+  .table-footer {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+  
+  .pagination {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+
+
+
+/*used in adminpanel*/
+.table-button2{
+    font-size: 23px;
+    padding: 5px;
+    background-color: #f6f6f6;
+    width: 100%;
+   
+}
+
+.table-button2:hover{
+    font-size: 20px;
+    padding: 5px;
+    background-color: #fa2121;
+    
+}
+
+/*used in UserCart in adminpanel*/
+.back-button-div-cartuser{
+  padding: 15px;
+}
+
+.add-new-user{
+  background-color: #fafafb;
+  font-size: 30px;
+  padding: 5px;
+}
+
+.add-new-user:hover{
+  background-color: #e1e1e0;
+  font-size: 28px;
+}
+
+
+

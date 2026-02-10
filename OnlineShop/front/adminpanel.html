@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fa">
+    <head>
+        <title> Online shop</title>
+        <!--css-->
+        <link rel="stylesheet" href="style/userpanel.css">
+        <link rel="stylesheet" href="style/cart.css">
+        <link rel="stylesheet" href="style/button.css">
+        <link rel="stylesheet" href="style/category.css">
+      
+
+    </head>
+    <body>
+        <div class="sidebar">
+            <h2>پنل کاربری</h2>
+            <!--user products-->
+            <div class="menu-item" data-target="home-menu">
+                خانه
+            </div>
+            <div class="submenu" id="home-menu">
+                <div class="submenu-item" onclick="renderAdminHomePage()">صفحه اصلی</div>
+            </div>
+
+
+            <div class="menu-item" data-target="products-menu">
+                مدیریت کاربران
+            </div>
+            <div class="submenu" id="products-menu">
+                <div class="submenu-item" onclick="renderUsers()">همه کاربران</div>
+                <div class="submenu-item" onclick="renderAddNewUser()">افزودن کاربر جدید</div>
+            </div>
+
+
+            <div class="menu-item" data-target="category-menu">
+                مدیریت دسته بندی ها
+            </div>
+            <div class="submenu" id="category-menu">
+                <div class="submenu-item" onclick="renderCategories()">دسته ها</div>
+            </div>
+            
+
+        </div>
+
+        <div class="content" id="content" >
+            فروشگاه 
+        </div>
+
+        <!--js-->
+        <script src="admin_js/global.js" defer></script>
+        <script src="admin_js/adminpanel.js" defer></script>
+        <script src="admin_js/users.js" defer></script>
+        <script src="admin_js/categories.js" defer></script>
+     
+    </body>
+</html>
